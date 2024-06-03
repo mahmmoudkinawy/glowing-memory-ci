@@ -3,6 +3,7 @@ on: [push, workflow_dispatch]
 jobs:
   test-api:
     runs-on: ubuntu-latest
+    container: ubuntu:20.04
     services:
       app:
         image: alialaa17/simple-node-api
@@ -15,6 +16,11 @@ jobs:
         ports:
           - 27017:27017
     steps:
+      - name: Install curl
+        run: |
+          apt-get -y update
+          apt-get -y install curl
+
       - name: Dump services context
         run: echo '${{ toJson(job.services) }}'
 
